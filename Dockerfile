@@ -21,9 +21,15 @@ COPY --from=backend-builder /app/api ./api
 
 # Copiar el frontend
 COPY --from=frontend-builder /app/.next ./frontend/.next
-# COPY --from=frontend-builder /app/public ./frontend/public
+COPY --from=frontend-builder /app/public ./frontend/public
+
+# Instalar dependencias necesarias para servir el frontend
+RUN apk add --no-cache nodejs npm
+
+# Crear un script para servir el frontend
+RUN echo 'const express = require("express");\nconst path = require("path");\nconst app = express();\napp.use(express.static(path.join(__dirname, "frontend/public")));\napp.get("*", (req, res) => {\n  res.sendFile(path.join(__dirname, "frontend/public", "index.html"));\n});\napp.listen(3000, () => {\n  console.log("Frontend running on port 3000");\n});' > server.js
 
 EXPOSE 8000
 EXPOSE 3000
 
-CMD ["./api"]
+CMD ["sh", "-c", "./api & node server.js"]
