@@ -12,10 +12,10 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  goapp:
+  backend:
     build:
-      context: ./backend
-      dockerfile: go.dockerfile
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     depends_on:
@@ -26,10 +26,10 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       DATABASE_URL: ${DATABASE_URL}
 
-  nextapp:
+  frontend:
     build:
-      context: ./frontend
-      dockerfile: next.dockerfile
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
