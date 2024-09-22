@@ -21,7 +21,7 @@ COPY --from=backend-builder /app/api ./api
 
 # Copiar el frontend
 COPY --from=frontend-builder /app/.next ./frontend/.next
-COPY --from=frontend-builder /app/public ./frontend/public
+# COPY --from=frontend-builder /app/public ./frontend/public
 
 EXPOSE 8000
 EXPOSE 3000
