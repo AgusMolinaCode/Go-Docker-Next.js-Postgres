@@ -13,7 +13,7 @@ RUN npm install
 RUN npm run build
 
 # Etapa 3: Crear la imagen final
-FROM alpine:3.13
+FROM nginx:alpine
 WORKDIR /app
 
 # Copiar el backend
@@ -23,7 +23,10 @@ COPY --from=backend-builder /app/api ./api
 COPY --from=frontend-builder /app/.next ./frontend/.next
 # COPY --from=frontend-builder /app/public ./frontend/public
 
+# Configurar nginx para servir el frontend
+COPY nginx.conf /etc/nginx/nginx.conf
+
 EXPOSE 8000
 EXPOSE 3000
 
-CMD ["./api"]
+CMD ["sh", "-c", "./api & nginx -g 'daemon off;'"]
