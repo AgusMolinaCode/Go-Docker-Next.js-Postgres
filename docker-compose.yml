@@ -14,8 +14,8 @@ services:
 
   goapp:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./backend
+      dockerfile: go.dockerfile
     ports:
       - "8000:8000"
     depends_on:
@@ -28,8 +28,8 @@ services:
 
   nextapp:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./frontend
+      dockerfile: next.dockerfile
     ports:
       - "3000:3000"
     depends_on:
