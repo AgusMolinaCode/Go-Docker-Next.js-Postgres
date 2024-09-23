@@ -14,7 +14,9 @@ import { Button } from "./ui/button";
 import { User, UserInterfaceProps } from "@/types/user";
 
 const UserInterface = ({ backendName }: UserInterfaceProps) => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  const apiUrl = process.env.NODE_ENV === "production" 
+    ? "https://go-docker-nextjs-postgres-go.up.railway.app" 
+    : "http://localhost:8000";
   const [users, setUsers] = useState<User[]>([]);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isEditing, setIsEditing] = useState(false);
